@@ -1,0 +1,128 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+apply plugin: 'java'
+
+jar {
+    from 'dist'
+    eachFile { details ->
+        details.path = details.path.startsWith('META-INF') ?: 'static/'+details.path
+    }
+    // Jar has duplicate empty folders (see http://issues.gradle.org/browse/GRADLE-1830)
+    // So we need to set includeEmptyDirs to false
+    includeEmptyDirs = false
+}
+
+task npmInstall(type:Exec) {
+
+    logging.captureStandardOutput LogLevel.INFO     // be Gradle-like, reduce noisy logging
+    logging.captureStandardError LogLevel.LIFECYCLE // but do show downloads in the log
+
+    inputs.files "package.json", "bower.json"
+    outputs.files "node_modules", "node_modules"
+
+    if(Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLine 'cmd', '/c', 'npm', 'install'
+    }
+    else {
+        commandLine 'npm', 'install'
+    }
+}
+
+task npmBuild(type:Exec, dependsOn: npmInstall) {
+
+    logging.captureStandardOutput LogLevel.INFO
+    logging.captureStandardError LogLevel.INFO
+
+    inputs.dir "src"
+    inputs.file "gulpfile.js"
+    outputs.dir "dist"
+
+    if(Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLine 'cmd', '/c', 'npm', 'run', 'build'
+    }
+    else {
+        commandLine 'npm', 'build'
+    }
+}
+
+
+task bowerInstall(type:Exec, dependsOn: npmBuild) {
+
+    logging.captureStandardOutput LogLevel.INFO
+    logging.captureStandardError LogLevel.INFO
+
+    if(Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLine 'cmd', '/c', 'bower', 'install'
+    }
+    else {
+        commandLine 'bower', 'install'
+    }
+}
+
+
+task bowerPrune(type:Exec, dependsOn: bowerInstall) {
+
+    logging.captureStandardOutput LogLevel.INFO
+    logging.captureStandardError LogLevel.INFO
+
+    if(Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLine 'cmd', '/c', 'bower', 'prune'
+    }
+    else {
+        commandLine 'bower', 'prune'
+    }
+}
+
+task bowerUpdate(type:Exec, dependsOn: bowerPrune) {
+
+    logging.captureStandardOutput LogLevel.INFO
+    logging.captureStandardError LogLevel.INFO
+
+    if(Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLine 'cmd', '/c', 'bower', 'update'
+    }
+    else {
+        commandLine 'bower', 'update'
+    }
+}
+
+task gulpBuild(type:Exec, dependsOn: bowerUpdate) {
+
+    logging.captureStandardOutput LogLevel.INFO
+    logging.captureStandardError LogLevel.INFO
+
+    if(Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLine 'cmd', 'gulp'
+    }
+    else {
+        commandLine 'gulp'
+    }
+}
+
+task gulpTest(type:Exec, dependsOn: gulpBuild) {
+
+    logging.captureStandardOutput LogLevel.INFO
+    logging.captureStandardError LogLevel.INFO
+
+    if(Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLine 'cmd', 'gulp' 'test'
+    }
+    else {
+        commandLine 'gulp', 'test'
+    }
+}
+
+task gulpe2e(type:Exec, dependsOn: gulpTest) {
+
+    logging.captureStandardOutput LogLevel.INFO
+    logging.captureStandardError LogLevel.INFO
+
+    if(Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLine 'cmd', 'gulp', 'protractor:dist'
+    }
+    else {
+        commandLine 'gulp', 'protractor:dist'
+    }
+}
+
+jar.dependsOn gulpTest

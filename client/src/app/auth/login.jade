@@ -1,0 +1,22 @@
+section#form
+  .container
+    .row
+      .col-sm-4.col-sm-offset-1
+        .login-form
+          h2 Login to your account
+          .form
+            input(type='text', placeholder='User Name' name="username" ng-model="credentials.username")
+            input(type='password', placeholder='Password' name="password" ng-model="credentials.password")
+            button.btn.btn-default(ng-click="login(credentials)") Login
+      .col-sm-1
+        h2.or OR
+      .col-sm-4
+        .signup-form
+          h2 New User Signup!
+          .form
+            input(type='text', placeholder='First Name')
+            input(type='text', placeholder='Last Name')
+            input(type='email', placeholder='Email Address')
+            input(type='password', placeholder='Password')
+            input(type='password', placeholder='Confirm Password')
+            button.btn.btn-default(type='submit') Signup

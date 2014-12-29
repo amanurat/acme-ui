@@ -1,0 +1,80 @@
+header#header
+  .header_top
+    .container
+      .row
+        .col-sm-6
+        .col-sm-6
+          .social-icons.pull-right
+            ul.nav.navbar-nav
+              li
+                a(href='#')
+                  i.fa.fa-facebook
+              li
+                a(href='#')
+                  i.fa.fa-twitter
+              li
+                a(href='#')
+                  i.fa.fa-linkedin
+              li
+                a(href='#')
+                  i.fa.fa-dribbble
+              li
+                a(href='#')
+                  i.fa.fa-google-plus
+  .header-middle
+    .container
+      .row
+        .col-sm-4
+          .logo.pull-left
+            a(href='#')
+              span Acme Store
+        .col-sm-8
+          .shop-menu.pull-right
+            ul.nav.navbar-nav
+              li
+                a(href='#')
+                  i.fa.fa-star
+                    |  Wishlist
+              li
+                a(href='#')
+                  i.fa.fa-crosshairs
+                    |  Checkout
+              li
+                a(href='#')
+                  i.fa.fa-shopping-cart
+                    |  Cart
+              li
+                a(href='login')
+                  i.fa.fa-lock
+                    |  Login
+  .header-bottom
+    .container
+      .row
+        .col-sm-9
+          .navbar-header
+            button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+              span.sr-only Toggle navigation
+              span.icon-bar
+              span.icon-bar
+          .mainmenu.pull-left
+            ul.nav.navbar-nav.collapse.navbar-collapse
+              li
+                a.active(href='#') Home
+              li.dropdown
+                a(href='#')
+                  | Shop
+                  i.fa.fa-angle-down
+                ul.sub-menu(role='menu')
+                  li
+                    a(href='#') Products
+                  li
+                    a(href='#') Product Details
+                  li
+                    a(href='#') Checkout
+                  li
+                    a(href='#') Cart
+                  li
+                    a(href='#') Login
+        .col-sm-3
+          .search_box.pull-right
+            input(type='text', placeholder='Search')

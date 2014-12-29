@@ -1,0 +1,24 @@
+app:
+  host: localhost
+server:
+  port: 8081
+spring:
+  application:
+    name: acme-ui
+security:
+  basic:
+    enabled: false
+logging:
+  level:
+    ROOT: INFO
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+    com.netflix.discovery: 'OFF'
+  file: /var/acme_logs/acme-ui.log
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+  client:
+    serviceUrl:
+      defaultZone: http://${app.host}:8761/eureka/
+
