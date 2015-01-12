@@ -4,7 +4,7 @@ angular.module 'acmeUi.auth.service', []
     factory = {}
 
     factory.getUser = () ->
-      $http.get 'api-gateway/user'
+      $http.get 'uaa/user'
       .success (data) ->
         if (data.name)
           $rootScope.authenticated = true
