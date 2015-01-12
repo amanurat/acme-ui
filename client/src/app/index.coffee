@@ -10,8 +10,8 @@ angular.module "acmeUi", [
   'acmeUi.auth.service',
   'acmeUi.auth.login.controller'
   ]
-  .run(['$rootScope', '$state', '$stateParams'
-    ($rootScope, $state, $stateParams) ->
+  .run(['$rootScope', '$state', '$stateParams', 'authService'
+    ($rootScope, $state, $stateParams, authService) ->
       $rootScope.$state = $state
       $rootScope.$stateParams = $stateParams
       $rootScope.copyrightDate = new Date()
@@ -29,6 +29,7 @@ angular.module "acmeUi", [
         }
       #set the token on startup.
       $rootScope.csrfTokenData = getTokenData()
+      $rootScope.userData = authService.getUser()
     ])
   .config ($stateProvider, $urlRouterProvider, $httpProvider) ->
     $urlRouterProvider
