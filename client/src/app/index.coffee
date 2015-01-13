@@ -7,7 +7,8 @@ angular.module "acmeUi", [
   'ui.router',
   'ui.bootstrap',
   'acmeUi.home.controller',
-  'acmeUi.auth.service'
+  'acmeUi.auth.service',
+  'acmeUi.navbar.controller'
   ]
   .run(['$rootScope', '$state', '$stateParams', 'authService'
     ($rootScope, $state, $stateParams, authService) ->

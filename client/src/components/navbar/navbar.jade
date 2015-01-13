@@ -1,4 +1,4 @@
-header#header
+header#header(ng-controller="NavbarController")
   .header_top
     .container
       .row
@@ -44,9 +44,14 @@ header#header
                   i.fa.fa-shopping-cart
                     |  Cart
               li
-                a(href='login')
+                a(href='login' ng-hide="authenticated")
                   i.fa.fa-lock
                     |  Login
+              li
+                a(ng-click="logout()" ng-show="authenticated" href=
+                  '')
+                  i.fa.fa-lock
+                    |  Logout
   .header-bottom
     .container
       .row
@@ -74,7 +79,9 @@ header#header
                   li
                     a(href='#') Cart
                   li
-                    a(href='#') Login
+                    a(href='login' ng-hide="authenticated") Login
+                  li
+                    a(href='' ng-show="authenticated" ng-click="logout()") Logout
         .col-sm-3
           .search_box.pull-right
             input(type='text', placeholder='Search')
